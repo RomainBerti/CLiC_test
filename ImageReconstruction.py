@@ -89,17 +89,16 @@ tableau = np.zeros((900,900))
 
 #for index, file in enumerate(files):
 for i in range(0,81):
-    print(i)
     path = os.path.expanduser(IMAGE_FOLDERPATH + list_images[i])
     img = Image.open(path)
-    img = np.array(img)
+    img = np.array(img)/amp_max*255
     X_data = cv2.resize(img, dsize=(100, 100), interpolation=cv2.INTER_LANCZOS4)
-
-    x = i // 9 * 100
-    y = i % 9 * 100
-    print(x,y)
-    print(tableau[x:x+100,y:y+100].shape)
-    print(X_data.shape)
+    # I suppose that the camera goes from left to right and up to down (not in a Z way)
+    x = i // 9 * 98
+    y = i % 9 * 98
+    # print(x,y)
+    # print(tableau[x:x+100,y:y+100].shape)
+    # print(X_data.shape)
     tableau[x:x+100,y:y+100] = X_data
     # plt.imshow(X_data, cmap='gray')
     # plt.show()
@@ -113,8 +112,8 @@ for i in range(0,81):
 
 # result.save(os.path.expanduser('./image.jpg'))
 # print(X_data)
-print(tableau.shape)
-plt.imshow(tableau, cmap='gray')
+# print(tableau.shape)
+plt.imshow(tableau, cmap='seismic')
 plt.show()
 cv2.imwrite('./test.png', tableau)
 
