@@ -25,12 +25,12 @@ for it_image, filename in enumerate(list_images):
 
     # noise reduction
     image = cv.imread(IMAGE_FOLDERPATH + filename)
-    denoise_image = cv.fastNlMeansDenoisingColored(image, None, h, h_for_color_components,
+    denoised_image = cv.fastNlMeansDenoisingColored(image, None, h, h_for_color_components,
                                                    template_window_size, search_window_size)
-    denoise_norm_image = (denoise_image/np.amax(denoise_image)*255).astype(np.uint8)
-    bw_image = cv.cvtColor(denoise_image, cv.COLOR_BGR2GRAY)
+    denoised_norm_image = (denoised_image / np.amax(denoised_image) * 255).astype(np.uint8)
+    bw_image = cv.cvtColor(denoised_image, cv.COLOR_BGR2GRAY)
 
-    ret, threshold_image = cv.threshold(denoise_norm_image, threshold, max_value, cv.THRESH_BINARY)
+    ret, threshold_image = cv.threshold(denoised_norm_image, threshold, max_value, cv.THRESH_BINARY)
     value = ndimage.measurements.center_of_mass(threshold_image)
     x_center = int(round(value[1]))
     y_center = int(round(value[0]))
